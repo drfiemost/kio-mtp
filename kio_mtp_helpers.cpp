@@ -48,12 +48,16 @@ uint16_t dataGet ( void*, void *priv, uint32_t, unsigned char *data, uint32_t *g
     ( ( MTPSlave* ) priv )->dataReq();
 
     QByteArray buffer;
-    *gotlen = ( ( MTPSlave* ) priv )->readData ( buffer );
+    int res = ( ( MTPSlave* ) priv )->readData ( buffer );
+    if (res<0) {
+        kDebug(KIO_MTP) << "error transferring data (" << res << ")";
+        return LIBMTP_HANDLER_RETURN_ERROR;
+    }
 
-    kDebug(KIO_MTP) << "transferring" << *gotlen << "bytes to data()";
+    kDebug(KIO_MTP) << "transferring" << res << "bytes to data()";
 
-    //data = ( unsigned char* ) buffer.data();
-    memcpy(data, buffer.data(), *gotlen);
+    memcpy(data, buffer.data(), res);
+    *gotlen = res;
 
     return LIBMTP_HANDLER_RETURN_OK;
 }
