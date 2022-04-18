@@ -828,23 +828,21 @@ void MTPSlave::mkdir ( const KUrl& url, int )
     {
         char *dirName = strdup ( pathItems.takeLast().toUtf8().data() );
 
-        LIBMTP_mtpdevice_t *device;
-        LIBMTP_file_t *file;
-		LIBMTP_devicestorage_t *storage;
-		int ret;
+        LIBMTP_mtpdevice_t *device = nullptr;
+		int ret = 0;
 
         QPair<void*, LIBMTP_mtpdevice_t*> pair = getPath ( url.directory() );
 
 		if (pathDepth == 3)
 		{//the folder need to be created straight to a storage device 
-			storage= ( LIBMTP_devicestorage_t* ) pair.first;
+			LIBMTP_devicestorage_t *storage= ( LIBMTP_devicestorage_t* ) pair.first;
 			device = pair.second;
 			ret = LIBMTP_Create_Folder ( device, dirName, 0xFFFFFFFF, storage->id );
 		}
 		else
         if ( pair.first )
         {
-            file = ( LIBMTP_file_t* ) pair.first;
+            LIBMTP_file_t *file = ( LIBMTP_file_t* ) pair.first;
             device = pair.second;
 
             if ( file && file->filetype == LIBMTP_FILETYPE_FOLDER )
