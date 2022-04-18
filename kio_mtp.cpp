@@ -798,6 +798,7 @@ void MTPSlave::copy ( const KUrl& src, const KUrl& dest, int, JobFlags flags )
         times->modtime = source->modificationdate;
         
         int result = utime( dest.path().toUtf8().data(), times  );
+        Q_UNUSED(result);
         
         free( times );
 
