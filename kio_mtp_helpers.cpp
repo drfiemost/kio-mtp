@@ -52,7 +52,8 @@ uint16_t dataGet ( void*, void *priv, uint32_t, unsigned char *data, uint32_t *g
 
     kDebug(KIO_MTP) << "transferring" << *gotlen << "bytes to data()";
 
-    data = ( unsigned char* ) buffer.data();
+    //data = ( unsigned char* ) buffer.data();
+    memcpy(data, buffer.data(), *gotlen);
 
     return LIBMTP_HANDLER_RETURN_OK;
 }
