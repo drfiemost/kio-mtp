@@ -136,7 +136,8 @@ void DeviceCache::checkDevice ( Solid::Device solidDevice )
                     uint32_t rawBusNum = rawDevice->bus_location;
                     uint8_t rawDevNum = rawDevice->devnum;
 
-                    if ( rawBusNum == solidBusNum && static_cast<int>(rawDevNum) == solidDevNum )
+                    if ( (solidBusNum >= 0) && (rawBusNum == static_cast<uint32_t>(solidBusNum))
+                        && static_cast<int>(rawDevNum) == solidDevNum )
                     {
                         kDebug( KIO_MTP ) << "Found device matching the Solid description";
 
